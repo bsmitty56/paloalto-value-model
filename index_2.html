@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cortex XSIAM business value model: legacy tool retirement, SOC efficiency, FAIR risk reduction and compliance, with contract timing and seller notes.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Palo Alto Networks | Cortex XSIAM Value Model">
+<meta property="og:description" content="$3.15M a year run rate, $3.55M NPV, 172% ROI, 5.9 month payback. Interactive levers, FAIR risk math and contract timing.">
+<meta property="og:url" content="https://bsmitty56.github.io/palo-alto-xsiam-value-model/">
+<meta property="og:image" content="https://bsmitty56.github.io/palo-alto-xsiam-value-model/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>Palo Alto Networks | Cortex XSIAM Value Model | Brad Smith</title>
+<style>
+:root{
+  color-scheme:dark;
+  --surface-bg:#101216; --surface-card:#171a1f; --surface-sunken:#1b1e24;
+  --surface-border:#2b2f36; --surface-border-strong:#464c55;
+  --content-heading:#e9ebef; --content-strong:#d3d6dc; --content-body:#b6bcc5;
+  --content-muted:#878e99; --content-faint:#7c8086;
+  --accent-primary:#6d9def; --accent-primary-on:#ffffff; --accent-weak:#1b2941; --accent-strong:#93b8f7;
+  --caution:#d3a24f;
+  --control-track:#2b2f36; --control-fill:#878e99; --control-thumb:#b6bcc5;
+  --ramp-dark:#1d3f73; --ramp-light:#9dbdf0; --ramp-text-on-dark:#ffffff; --ramp-text-on-light:#0f172a;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --surface-bg:#fafafb; --surface-card:#ffffff; --surface-sunken:#f7f8f9;
+  --surface-border:#d4d8de; --surface-border-strong:#a8aeb7;
+  --content-heading:#16181d; --content-strong:#292d33; --content-body:#3e434c;
+  --content-muted:#6b7078; --content-faint:#70757c;
+  --accent-primary:#1b4db1; --accent-primary-on:#ffffff; --accent-weak:#e8eef9; --accent-strong:#14398a;
+  --caution:#8a5a00;
+  --control-track:#dfe2e7; --control-fill:#6b7078; --control-thumb:#3e434c;
+  --ramp-dark:#1b4db1; --ramp-light:#cfe0f7;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; background:var(--surface-bg); color:var(--content-strong);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; -webkit-font-smoothing:antialiased;
+}
+.shell{max-width:1152px; margin:0 auto; display:flex; flex-direction:column; gap:32px; padding-block:32px; padding-left:32px; padding-right:32px}
+
+/* type scale */
+.t-xs{font-size:12px; line-height:16px}
+.t-caption,.t-label{font-size:13px; line-height:1.45}
+.t-body{font-size:15px; line-height:1.5}
+.t-driver{font-size:16px; line-height:1.35}
+.t-heading{font-size:19px; line-height:1.3}
+.t-area-total{font-size:22px; line-height:1.2}
+.t-summary{font-size:26px; line-height:1.15}
+.t-kpi{font-size:34px; line-height:1.05}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+header.vm{display:flex; flex-direction:column; gap:16px; border-bottom:1px solid var(--surface-border-strong); padding-bottom:24px}
+@media(min-width:640px){header.vm{flex-direction:row; align-items:flex-start; justify-content:space-between}}
+.pill{display:inline-block; border-radius:999px; border:1px solid color-mix(in srgb, var(--accent-primary) 40%, transparent); background:color-mix(in srgb, var(--accent-primary) 10%, transparent); padding:4px 12px; font-size:13px; line-height:1.45; font-weight:600; color:var(--accent-primary)}
+h1{margin:12px 0 0; font-size:30px; line-height:1.2; font-weight:700; color:var(--accent-primary); text-wrap:balance}
+.hdr-sub{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.hdr-basis{margin:4px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint); max-width:78ch}
+.hdr-right{display:flex; flex-direction:column; align-items:flex-start; gap:8px}
+@media(min-width:640px){.hdr-right{align-items:flex-end}}
+.hdr-row{display:flex; align-items:center; gap:12px}
+.btn-sm{border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:4px 8px; font:inherit; font-size:13px; line-height:1.45; color:var(--content-muted); cursor:pointer}
+.btn-sm:hover{border-color:var(--surface-border-strong); color:var(--content-strong)}
+.btn-md{border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:4px 12px; font:inherit; font-size:13px; line-height:1.45; color:var(--content-muted); cursor:pointer}
+.btn-md:hover{border-color:var(--surface-border-strong); color:var(--content-strong)}
+.seg{display:inline-flex; border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:4px; font-size:14px; line-height:20px; flex-wrap:wrap}
+.seg button{border:0; background:transparent; border-radius:6px; padding:6px 12px; font:inherit; color:var(--content-body); cursor:pointer; transition:background-color .15s, color .15s}
+.seg button:hover{color:var(--content-strong)}
+.seg button[aria-pressed="true"]{background:var(--accent-primary); color:var(--accent-primary-on); font-weight:600}
+
+/* KPI strip */
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--surface-border); border:1px solid var(--surface-border); border-radius:12px; overflow:hidden}
+.kpi{background:var(--surface-bg); padding:24px}
+.kpi .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.kpi .v{margin:8px 0 0; font-size:34px; line-height:1.05; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.kpi .s{margin:4px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+
+/* panel card */
+.panel{border-radius:12px; border:1px solid var(--surface-border); background:var(--surface-card); padding:24px}
+.panel hr{border:0; border-top:1px solid var(--surface-border); margin:16px 0}
+.sum-head{display:flex; flex-direction:column; gap:16px}
+@media(min-width:640px){.sum-head{flex-direction:row; align-items:center; justify-content:space-between}}
+h2{margin:0; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-heading)}
+.sum-sub{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.sum-box{border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:12px 24px; text-align:right}
+.sum-box .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.sum-box .v{margin:4px 0 0; font-size:26px; line-height:1.15; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums; white-space:nowrap}
+.chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.chart-total{font-size:22px; line-height:1.2; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.bar{display:flex; height:32px; width:100%; overflow:hidden; border-radius:6px; margin-top:12px}
+.bar > div{display:flex; align-items:center; justify-content:center; font-size:12px; line-height:16px; font-weight:600; font-variant-numeric:tabular-nums; min-width:0; transition:width .2s ease}
+.legend{display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:12px; font-size:15px; line-height:1.5}
+.legend > div{display:flex; align-items:center; gap:8px; min-width:0}
+.swatch{height:12px; width:12px; flex:none; border-radius:2px}
+.legend .nm{color:var(--content-body)}
+.legend .vl{font-weight:500; color:var(--content-strong); font-variant-numeric:tabular-nums}
+
+/* section */
+.sec-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px}
+.sec-head h2{color:var(--content-strong)}
+.area-list{display:flex; flex-direction:column; gap:12px; margin-top:16px}
+
+/* area card */
+.area{border-radius:12px; border:1px solid var(--surface-border); background:var(--surface-card)}
+.area.off{opacity:.55}
+.area-head{display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; padding:16px 20px}
+.area-toggle{display:flex; min-width:0; align-items:center; gap:8px; border:0; background:transparent; padding:0; font:inherit; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-strong); cursor:pointer; text-align:left}
+.chev{height:16px; width:16px; flex:none; color:var(--content-muted); transition:transform .15s}
+.area.open .chev{transform:rotate(90deg)}
+.area-right{margin-left:auto; display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px}
+.area-total{font-size:22px; line-height:1.2; font-weight:600; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.area-pending{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.area-factor{display:flex; align-items:center; gap:12px; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.area-factor .track{width:128px}
+@media(min-width:640px){.area-factor .track{width:160px}}
+.collapse{display:grid; grid-template-rows:0fr; transition:grid-template-rows .15s ease}
+.area.open .collapse{grid-template-rows:1fr}
+.collapse > div{overflow:hidden; min-height:0}
+.area-body{padding:0 20px 20px}
+.area-body hr{border:0; border-top:1px solid var(--surface-border); margin:0 0 16px}
+.area-desc{margin:0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.driver-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
+@media(min-width:1024px){.driver-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* driver card */
+.driver{border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:16px; display:flex; flex-direction:column}
+.driver.off{opacity:.5}
+.d-top{display:flex; align-items:flex-start; gap:8px}
+.d-title{margin:0; font-size:16px; line-height:1.35; font-weight:600; color:var(--content-strong); text-wrap:balance}
+.d-lead{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-body); text-wrap:pretty}
+.d-pending{margin:12px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.d-inputs{display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px}
+@media(min-width:640px){.d-inputs{grid-template-columns:repeat(2,1fr)}}
+.inp{border-left:2px solid var(--surface-border); padding-left:12px; min-width:0}
+.inp .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.inp .v{margin:0; font-size:15px; line-height:1.5; font-weight:500; color:var(--content-strong); font-variant-numeric:tabular-nums}
+.inp .s{margin:4px 0 0; border-top:1px solid var(--surface-border); padding-top:4px; font-size:12px; line-height:16px; font-style:italic; color:var(--content-faint)}
+.d-ctl{margin-top:16px; border-top:1px solid var(--surface-border); padding-top:12px}
+.d-row{display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.d-row .pct{font-size:15px; line-height:1.5; font-weight:600; color:var(--content-strong); font-variant-numeric:tabular-nums}
+.d-row.v2{margin-top:8px}
+.d-row .amt{font-size:15px; line-height:1.5; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.d-note{margin:12px 0 0; border-radius:6px; border:1px solid color-mix(in srgb, var(--caution) 45%, transparent); padding:8px 10px; font-size:12px; line-height:16px; color:var(--caution)}
+.d-inspect{margin-top:16px; width:100%; border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:8px 0; font:inherit; font-size:15px; line-height:1.5; color:var(--content-body); cursor:pointer}
+.d-inspect:hover{background:var(--surface-card)}
+
+/* controls */
+input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:24px; margin:0; background:transparent; cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px; border-radius:3px; background:linear-gradient(to right, var(--control-fill) var(--fill,0%), var(--control-track) var(--fill,0%))}
+input[type=range]::-moz-range-track{height:6px; border-radius:3px; background:var(--control-track)}
+input[type=range]::-moz-range-progress{height:6px; border-radius:3px; background:var(--control-fill)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6px; border:2px solid var(--surface-bg); border-radius:50%; background:var(--control-thumb); box-shadow:0 0 0 1px var(--control-thumb)}
+input[type=range]::-moz-range-thumb{width:18px; height:18px; border:2px solid var(--surface-bg); border-radius:50%; background:var(--control-thumb); box-shadow:0 0 0 1px var(--control-thumb)}
+input[type=checkbox]{height:16px; width:16px; flex:none; margin:0; accent-color:var(--accent-primary); cursor:pointer}
+.cb-wrap{display:inline-flex; align-items:center; cursor:pointer}
+
+/* modal */
+.overlay{position:fixed; inset:0; z-index:50; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); padding:16px}
+.overlay.open{display:flex}
+.modal{max-height:80vh; width:100%; max-width:672px; overflow-y:auto; border-radius:12px; border:1px solid var(--surface-border-strong); background:var(--surface-card); padding:24px}
+.m-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px; border-bottom:1px solid var(--surface-border); padding-bottom:16px}
+.m-head h3{margin:0; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-heading)}
+.m-desc{margin:0 0 16px; font-size:15px; line-height:1.5; color:var(--content-muted)}
+h4.m-sec{margin:24px 0 0; font-size:13px; line-height:1.45; font-weight:600; color:var(--content-faint)}
+h4.m-sec.first{margin-top:0}
+.m-subnote{margin:0; font-size:12px; line-height:16px; color:var(--content-faint)}
+.m-grid{display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px}
+@media(min-width:640px){.m-grid{grid-template-columns:repeat(2,1fr)}}
+ol.steps{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:8px}
+ol.steps li{border-radius:6px; border:1px solid var(--surface-border); background:var(--surface-sunken); padding:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:12px; line-height:16px; color:var(--content-body); overflow-x:auto}
+ol.steps .nm{font-weight:600; color:var(--content-heading)}
+ol.steps .nm.plain{font-weight:400; color:var(--content-muted)}
+ol.steps .out{margin-left:8px; color:var(--content-faint)}
+ol.steps .sub{color:var(--content-faint)}
+ul.evid{list-style:none; margin:8px 0 0; padding:0}
+ul.evid li{border-bottom:1px solid var(--surface-border); padding-bottom:8px; margin-bottom:8px}
+ul.evid li:last-child{border-bottom:0; padding-bottom:0; margin-bottom:0}
+ul.evid .claim{display:block; font-size:15px; line-height:1.5; color:var(--content-body)}
+ul.evid a{display:inline-block; margin-top:4px; font-size:12px; line-height:16px; color:var(--accent-primary); text-decoration:none}
+ul.evid a:hover{text-decoration:underline}
+
+footer{font-size:13px; line-height:1.6; color:var(--content-faint); border-top:1px solid var(--surface-border); padding-top:16px}
+:focus-visible{outline:2px solid var(--accent-primary); outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:1023px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:639px){
+  .shell{padding-left:16px; padding-right:16px}
+  .kpis{grid-template-columns:1fr}
+  h1{font-size:26px}
+  .kpi .v{font-size:28px}
+  .area-right{margin-left:0; width:100%}
+}
+
+/* additions for the Palo Alto model */
+.btn-sm[aria-pressed="true"]{border-color:var(--accent-primary); color:var(--accent-primary)}
+.d-row.v3{margin-top:12px}
+.d-range{margin:8px 0 0; font-size:12px; line-height:16px; color:var(--content-faint); font-variant-numeric:tabular-nums}
+.d-tag{display:inline-block; margin-left:6px; border-radius:999px; border:1px solid var(--surface-border); padding:0 8px; font-size:11px; line-height:18px; font-weight:500; color:var(--content-muted); vertical-align:middle}
+
+/* seller notes */
+.seller{margin-top:16px; border-radius:8px; border:1px solid color-mix(in srgb, var(--accent-primary) 35%, transparent); background:color-mix(in srgb, var(--accent-primary) 6%, transparent); padding:12px 16px}
+.seller[hidden]{display:none}
+.seller h5{margin:0 0 6px; font-size:13px; line-height:1.45; font-weight:600; color:var(--accent-primary)}
+.seller p{margin:4px 0 0; font-size:14px; line-height:1.5; color:var(--content-body)}
+.seller .lab{font-weight:600; color:var(--content-strong)}
+.seller ul{margin:4px 0 0; padding-left:18px; font-size:14px; line-height:1.5; color:var(--content-body)}
+.m-talk{border-radius:6px; border:1px solid color-mix(in srgb, var(--accent-primary) 35%, transparent); background:color-mix(in srgb, var(--accent-primary) 6%, transparent); padding:10px 12px; margin-top:8px; font-size:14px; line-height:1.5; color:var(--content-body)}
+.m-talk p{margin:0}
+.m-talk p + p{margin-top:6px}
+.m-talk .lab{font-weight:600; color:var(--content-strong)}
+
+/* timeline */
+.tl-controls{display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; margin-top:12px}
+.tl-ctl{display:flex; align-items:center; gap:12px; font-size:13px; line-height:1.45; color:var(--content-muted); min-width:280px; flex:1}
+.tl-ctl .track{flex:1; max-width:260px}
+.tl-ctl .num{font-size:15px; font-weight:600; color:var(--content-strong)}
+.tl-stat{font-size:13px; line-height:1.45; color:var(--content-muted)}
+.tl-stat b{font-size:15px; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.tl{margin-top:16px; display:grid; grid-template-columns:minmax(120px,180px) 1fr; gap:6px 12px; align-items:center}
+.tl .nm{font-size:13px; line-height:1.3; color:var(--content-body); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.tl .lane{position:relative; height:22px; border-radius:4px; background:var(--surface-sunken); border:1px solid var(--surface-border)}
+.tl .tseg{position:absolute; top:2px; bottom:2px; border-radius:3px; display:flex; align-items:center; padding:0 6px; font-size:11px; font-weight:600; white-space:nowrap; overflow:hidden; font-variant-numeric:tabular-nums}
+.tl .tseg.old{background:color-mix(in srgb, var(--content-muted) 30%, transparent); color:var(--content-strong)}
+.tl .tseg.save{background:var(--ramp-dark); color:var(--ramp-text-on-dark)}
+.tl .tseg.bill{background:var(--caution); color:#111}
+.tl .yr{position:absolute; top:-1px; bottom:-1px; width:1px; background:var(--surface-border-strong)}
+.tl-axis{position:relative; height:16px; font-size:11px; color:var(--content-faint)}
+.tl-axis span{position:absolute; transform:translateX(-50%)}
+.tl-key{display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:12px; font-size:13px; color:var(--content-muted)}
+.tl-key span{display:inline-flex; align-items:center; gap:6px}
+.tl-key i{display:inline-block; width:12px; height:12px; border-radius:2px}
+
+/* case versions */
+.ver-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.ver-row input[type=text]{flex:1; min-width:220px; border-radius:6px; border:1px solid var(--surface-border); background:var(--surface-bg); color:var(--content-strong); padding:6px 10px; font:inherit; font-size:14px}
+.btn-pri{border-radius:6px; border:1px solid var(--accent-primary); background:var(--accent-primary); color:var(--accent-primary-on); padding:6px 12px; font:inherit; font-size:14px; font-weight:600; cursor:pointer}
+table.ver{width:100%; border-collapse:collapse; margin-top:12px; font-size:14px}
+table.ver th{text-align:left; font-size:12px; font-weight:600; color:var(--content-faint); border-bottom:1px solid var(--surface-border); padding:6px 8px}
+table.ver td{border-bottom:1px solid var(--surface-border); padding:8px; color:var(--content-body); font-variant-numeric:tabular-nums}
+table.ver td.r, table.ver th.r{text-align:right}
+table.ver .delta{font-size:12px; color:var(--content-faint)}
+.ver-empty{margin:12px 0 0; font-size:14px; color:var(--content-faint)}
+
+header.vm > div:first-child{flex:1; min-width:0}
+@media(min-width:640px){.hdr-right{flex:none; max-width:560px}}
+
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="vm">
+    <div>
+      <span class="pill">CFO Value Engineering Framework</span>
+      <h1>Palo Alto Networks</h1>
+      <p class="hdr-sub">Use case: SOC consolidation on Cortex XSIAM (SIEM, XDR and SOAR on one platform) | Composite: regional health system | Prepared by Brad Smith</p>
+      <p class="hdr-basis" id="basis"></p>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-row">
+        <span class="t-label" style="color:var(--content-faint)">Scenario multiplier</span>
+        <button class="btn-sm" id="notesBtn" aria-pressed="false">Seller notes</button>
+        <button class="btn-sm" id="theme">Light</button>
+      </div>
+      <div class="seg" id="scenarios">
+        <button data-s="0.5">Conservative (0.5x on estimates)</button>
+        <button data-s="1" aria-pressed="true">Expected</button>
+        <button data-s="1.25">Aggressive (1.25x on estimates)</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="panel">
+    <div class="sum-head">
+      <div>
+        <h2>Projected Annual Financial Impact</h2>
+        <p class="sum-sub">Run rate once every legacy contract has retired and the platform is at full effectiveness (Year 3). Estimates scale with the scenario; contract savings do not.</p>
+      </div>
+      <div class="sum-box">
+        <p class="l">Run-rate annual realized value</p>
+        <p class="v" id="total">$0 / yr</p>
+      </div>
+    </div>
+    <hr>
+    <div class="chart-head">
+      <h2>Where the value comes from</h2>
+      <span class="chart-total" id="chartTotal">$0 / yr</span>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head">
+      <h2>Contract timing</h2>
+      <span class="tl-stat" id="yearSplit"></span>
+    </div>
+    <p class="sum-sub">Each legacy contract stops costing money only when it ends. Line Palo Alto billing up behind the largest one and the customer never pays twice. Move the contract-end sliders on the cards below, or the billing start here.</p>
+    <div class="tl-controls">
+      <div class="tl-ctl">
+        <span>Palo Alto billing starts after month</span>
+        <div class="track" id="billTrack"></div>
+        <span class="num" id="billVal"></span>
+      </div>
+      <span class="tl-stat">Paying twice before the SIEM retires: <b id="overlap">$0</b></span>
+    </div>
+    <div class="tl" id="timeline"></div>
+    <div class="tl-key">
+      <span><i style="background:color-mix(in srgb, var(--content-muted) 30%, transparent)"></i>Legacy contract still running</span>
+      <span><i style="background:var(--ramp-dark)"></i>Savings realized</span>
+      <span><i style="background:var(--caution)"></i>Palo Alto billing</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <h2>Value Areas &amp; Realization Controls</h2>
+      <div style="display:flex; gap:8px">
+        <button class="btn-md" id="expandAll">Expand all</button>
+        <button class="btn-md" id="collapseAll">Collapse all</button>
+      </div>
+    </div>
+    <div class="area-list" id="areas"></div>
+  </section>
+
+  <div class="panel">
+    <h2>Case versions</h2>
+    <p class="sum-sub">A business case is negotiated, not presented. Save the opening view, let the champion and the CFO pull the levers, then save again. The difference between versions is the negotiation, and the last version is the number the champion will defend.</p>
+    <div class="ver-row">
+      <input type="text" id="verName" placeholder="Name this version, e.g. Opening view, After CFO review" maxlength="60">
+      <button class="btn-pri" id="verSave" type="button">Save version</button>
+    </div>
+    <div id="verList"></div>
+  </div>
+
+  <footer>
+    Independent analysis by Brad Smith. Benefit structure and default rates are drawn from the Forrester Total Economic Impact study of Cortex XSIAM (commissioned by Palo Alto Networks, September 2025) and Palo Alto Networks' published customer stories, rescaled to a composite regional health system. Pricing, contract values and loss magnitude are stated assumptions to be replaced with the customer's own figures. Illustrative only. Not affiliated with or endorsed by Palo Alto Networks.
+  </footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="m-head">
+      <h3 id="m-title"></h3>
+      <button class="btn-sm" id="m-close" aria-label="Close">&#10005;</button>
+    </div>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<script>
+// Palo Alto Networks Cortex XSIAM value model: data and math.
+const n  = v => Math.round(v).toLocaleString('en-US');
+const n2 = v => (Math.round(v * 100) / 100).toLocaleString('en-US');
+const m  = v => (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US');
+const p  = v => (Math.round(v * 1000) / 10) + '%';
+const mm = v => { const a = Math.abs(v); const s = v < 0 ? '-$' : '$'; return a >= 1e6 ? s + (a / 1e6).toFixed(2) + 'M' : s + Math.round(a / 1000) + 'K'; };
+
+const HORIZON = 36;
+const YEAR_RAMP = [0.70, 0.85, 1.00]; // effectiveness ramp used in the Forrester TEI composite
+
+const GLOBALS = [
+  { key: 'employees', label: 'Employees', value: 12000, fmt: 'int' },
+  { key: 'endpoints', label: 'Endpoints covered', value: 15000, fmt: 'int' },
+  { key: 'alerts', label: 'Security alerts reviewed per year', value: 55000, fmt: 'int' },
+  { key: 'minsPerAlert', label: 'Analyst minutes per alert', value: 10, fmt: 'int' },
+  { key: 'tier1Rate', label: 'Tier 1 analyst hourly rate, fully burdened', value: 71, fmt: 'usd' },
+  { key: 'incidents', label: 'Security incidents investigated per year', value: 2600, fmt: 'int' },
+  { key: 'mttrMins', label: 'Analyst minutes per incident today (MTTR)', value: 180, fmt: 'int' },
+  { key: 'secopsRate', label: 'SecOps engineer hourly rate, fully burdened', value: 103, fmt: 'usd' },
+  { key: 'itOpsFte', label: 'Fully loaded cost per IT operations FTE', value: 122500, fmt: 'usd' },
+  { key: 'recapture', label: 'Share of freed analyst time redeployed to higher-value work', value: 0.75, fmt: 'pct' },
+  { key: 'platformFee', label: 'Palo Alto platform fee per year (assumption)', value: 950000, fmt: 'usd' },
+  { key: 'maintenance', label: 'Internal platform administration per year', value: 77000, fmt: 'usd' },
+  { key: 'oneTimeCost', label: 'One-time deployment, internal and services', value: 220000, fmt: 'usd' },
+  { key: 'deployMonths', label: 'Months to deploy before estimated value starts', value: 3, fmt: 'int' },
+  { key: 'billingStart', label: 'Palo Alto billing starts after month', value: 9, fmt: 'int' },
+  { key: 'wacc', label: 'Discount rate (WACC)', value: 0.10, fmt: 'pct' }
+];
+
+const S = {
+  tei: 'https://tei.forrester.com/go/paloaltonetworks/cortexxsiam/',
+  blog: 'https://www.paloaltonetworks.com/blog/?p=346645',
+  cio: 'https://us.resources.cio.com/resources/the-forrester-total-economic-impact-of-cortex-xsiam-14',
+  xerox: 'https://www.paloaltonetworks.com/customers/xerox-saves-10-2m-through-cortex-ai-driven-soc-automation',
+  freight: 'https://origin-www.paloaltonetworks.com/customers/freight-company-reduces-incident-resolution-to-an-hour-with-cortex-xsiam',
+  defer: 'https://www.sdxcentral.com/news/palo-alto-networks-offers-no-cost-platform-trial-to-move-customers-from-legacy-products/',
+  path: 'https://www.cloudspress.com/?p=579440',
+  fair: 'https://jumpcloud.com/?p=135864'
+};
+const TEI = 'Forrester TEI of Cortex XSIAM, Sept 2025';
+
+const AREAS = [
+  {
+    id: 'cost', name: 'Legacy Tool Retirement', factor: 1,
+    desc: 'Hard cash. Each legacy contract comes off the invoice on the month it ends, not on day one. Set the end month on each card from the customer\'s renewal calendar.',
+    notes: {
+      who: 'CFO and CISO',
+      say: 'Your SIEM, SOAR and endpoint contracts renew on different dates. We line Palo Alto billing up behind them, so the budget you already have becomes the savings, on the date each one comes due.',
+      ask: ['Which security contracts renew in the next 18 months, and at what value?', 'Where do two tools do the same job today?'],
+      obj: '"Those renewals are already budgeted." That is the point. Those budget lines are the savings, and the timeline shows exactly when each one is released.'
+    },
+    drivers: [
+      {
+        id: 'siem', timing: true, end: 9, short: 'SIEM',
+        name: 'Legacy SIEM Retirement',
+        desc: 'XSIAM ingests and stores the security data the SIEM holds today, so the SIEM license and its storage come off the invoice.',
+        inputs: [
+          { key: 'acv', label: 'SIEM annual contract value', value: 650000, fmt: 'usd',
+            source: 'Prospect-supplied. The TEI composite retired a $600,000 a year SIEM at a 10,000-employee firm; a health system with more data sources usually runs higher.' },
+          { key: 'share', label: 'Share of the contract retired', value: 1, fmt: 'pct',
+            source: 'Set below 100% if a slice of the SIEM stays for a non-security use case during migration.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.acv * i.share,
+        talk: 'The SIEM is usually the biggest single line, and its renewal date sets the whole timeline.',
+        probe: 'When does the SIEM renew, and what did the last true-up on data volume cost?',
+        evidence: [
+          { c: 'The TEI composite retired a legacy SIEM worth $600,000 a year, at negotiated discounts of 40 to 50%', l: TEI, u: S.tei },
+          { c: 'The composite saved over $3.1 million in three years by consolidating legacy systems', l: 'Palo Alto Networks blog on the TEI', u: S.blog },
+          { c: 'A SecOps leader reported saving a couple million dollars a year on tooling right away', l: 'TEI summary', u: S.cio },
+          { c: 'A North American freight company consolidated its SIEM and SOAR tools into XSIAM', l: 'Freight company customer story', u: S.freight }
+        ]
+      },
+      {
+        id: 'soar', timing: true, end: 9, short: 'SOAR',
+        name: 'SOAR Platform Retirement',
+        desc: 'Automation playbooks run natively in XSIAM, so the separate orchestration product is retired.',
+        inputs: [
+          { key: 'acv', label: 'SOAR annual contract value', value: 150000, fmt: 'usd',
+            source: 'Prospect-supplied. The TEI composite retired a $150,000 a year SOAR.' },
+          { key: 'share', label: 'Share of the contract retired', value: 1, fmt: 'pct', source: 'Usually all of it once playbooks are rebuilt.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.acv * i.share,
+        talk: 'Playbooks move with the SIEM, so SOAR usually retires on the same date.',
+        probe: 'How many playbooks run in production today, and who maintains them?',
+        evidence: [
+          { c: 'The TEI composite retired a SOAR worth $150,000 a year', l: TEI, u: S.tei },
+          { c: 'Xerox chose XSIAM for its native integration of SIEM, XDR and SOAR', l: 'Xerox customer story', u: S.xerox },
+          { c: 'The freight company implemented several playbooks quickly after moving to XSIAM', l: 'Freight company customer story', u: S.freight }
+        ]
+      },
+      {
+        id: 'edr', timing: true, end: 12, short: 'EDR / XDR',
+        name: 'Endpoint Detection and Response Consolidation',
+        desc: 'Endpoint protection moves to the Cortex agent already feeding XSIAM, and the separate EDR or XDR contract is retired.',
+        uses: ['endpoints'],
+        inputs: [
+          { key: 'perEndpoint', label: 'Net EDR cost per endpoint per year', value: 30, fmt: 'usd',
+            source: 'The TEI composite paid $60 list per endpoint at a 50% discount, so $30 net.' }
+        ],
+        realization: 1,
+        calc: (g, i) => g.endpoints * i.perEndpoint,
+        talk: 'Endpoint renewals are often the second wave; this is where the per-endpoint math matters.',
+        probe: 'How many endpoints are licensed versus actually deployed?',
+        evidence: [
+          { c: 'The TEI composite retired EDR and XDR worth $300,000 a year across 10,000 endpoints', l: TEI, u: S.tei },
+          { c: 'Interviewees consolidated as many as 21 siloed tools onto the platform', l: 'TEI summary', u: S.cio }
+        ]
+      },
+      {
+        id: 'ndr', timing: true, end: 18, short: 'NDR and ITDR',
+        name: 'Network and Identity Detection Tools',
+        desc: 'Network and identity threat detection run on the same data lake, so point products for NDR and ITDR come off the invoice.',
+        inputs: [
+          { key: 'acv', label: 'NDR and ITDR annual contract value', value: 175000, fmt: 'usd',
+            source: 'Prospect-supplied. The TEI composite retired $175,000 a year of NDR and ITDR.' },
+          { key: 'share', label: 'Share of the contract retired', value: 1, fmt: 'pct', source: 'Set lower if one tool stays for a specialized use.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.acv * i.share,
+        talk: 'Smaller line, later date. It shows the platform keeps paying back after year one.',
+        probe: 'Which detection tools do you run alongside the SIEM today?',
+        evidence: [
+          { c: 'The TEI composite retired $175,000 a year of ITDR and NDR', l: TEI, u: S.tei }
+        ]
+      },
+      {
+        id: 'infra', timing: true, end: 9, short: 'Tool admin labor', endLabel: 'Savings start after month',
+        name: 'Tool Administration Labor',
+        desc: 'Fewer consoles, integrations and on-premises components to maintain, so IT operations time goes elsewhere. Starts when the SIEM retires.',
+        uses: ['itOpsFte'],
+        inputs: [
+          { key: 'ftes', label: 'IT operations FTEs freed', value: 1.5, fmt: 'num',
+            source: 'The TEI composite freed 2 IT operations FTEs. Held lower here for a smaller security estate.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.ftes * g.itOpsFte,
+        talk: 'Ask who keeps the SIEM running today. That person is this line.',
+        probe: 'How many people spend part of their week maintaining security tooling?',
+        evidence: [
+          { c: 'The TEI composite freed 2 IT operations FTEs at $122,500 each', l: TEI, u: S.tei }
+        ]
+      },
+      {
+        id: 'mssp', timing: true, end: 12, startOff: true, short: 'MSSP tier 1',
+        name: 'Outsourced Tier 1 Monitoring',
+        desc: 'Turn on only if the customer pays an MSSP for tier 1 alert monitoring. Automation lets the internal team absorb it.',
+        inputs: [
+          { key: 'acv', label: 'MSSP annual contract value', value: 400000, fmt: 'usd', source: 'Prospect-supplied.' },
+          { key: 'share', label: 'Share of the contract retired', value: 0.5, fmt: 'pct', source: 'Many keep after-hours coverage, so half is a safe start.' }
+        ],
+        realization: 1,
+        realizationNote: 'Off by default. If it is on, pull Tier 1 Alert Triage down, or the same tier 1 work is counted twice.',
+        calc: (g, i) => i.acv * i.share,
+        talk: 'If they outsource tier 1, this is real cash, not capacity.',
+        probe: 'Do you use an MSSP for monitoring, and when does that contract renew?',
+        evidence: [
+          { c: 'Xerox moved to an in-house SOC on XSIAM and reallocated 10 FTEs, including all L1 positions', l: 'Xerox customer story', u: S.xerox },
+          { c: 'Xerox reports $10.2 million in direct cost savings over five years', l: 'Xerox customer story', u: S.xerox }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eff', name: 'SOC Efficiency', factor: 1,
+    desc: 'Analyst capacity. It becomes cash when it fills open requisitions, avoids the next hire or reduces outsourced spend; otherwise it funds threat hunting and coverage.',
+    notes: {
+      who: 'CISO and SOC manager',
+      say: 'Your analysts spend thousands of hours a year on alerts that never needed a person. Automation gives that time back to threat hunting and coverage you cannot staff today.',
+      ask: ['How many alerts does the team review a day, and how many are false positives?', 'Do you have open SOC requisitions you cannot fill?'],
+      obj: '"We will not cut headcount." Then it is capacity, and it is still worth counting: coverage, retention and burnout. If there are open reqs, it is cash.'
+    },
+    drivers: [
+      {
+        id: 'triage', estimate: true,
+        name: 'Tier 1 Alert Triage',
+        desc: 'Alerts are grouped into incidents and the routine ones close automatically, so tier 1 analysts stop working them one by one.',
+        uses: ['alerts', 'minsPerAlert', 'tier1Rate', 'recapture'],
+        inputs: [
+          { key: 'reduction', label: 'Reduction in alerts needing a person', value: 0.85, fmt: 'pct',
+            source: 'TEI steady state. The composite reached 60%, 72% and 85% across years one to three; the model applies its own year one and two ramp on top of this.' }
+        ],
+        realization: 1,
+        realizationNote: 'Counted as capacity. Keep it at 100% where open reqs or a hiring freeze make it real; pull it down where the freed time has no home.',
+        calc: (g, i) => g.alerts * i.reduction * (g.minsPerAlert / 60) * g.tier1Rate * g.recapture,
+        talk: 'Lead with the hours, then let the customer decide what an hour is worth.',
+        probe: 'What share of alerts are closed as false positives today?',
+        evidence: [
+          { c: 'The TEI composite cut alerts needing review by 60%, 72% and 85% across three years, at 10 minutes and $71 an hour per alert', l: TEI, u: S.tei },
+          { c: 'One interviewee went from 25,000 alerts a quarter needing manual review to about 4,500', l: 'Palo Alto Networks blog on the TEI', u: S.blog },
+          { c: 'Xerox resolves 73% more issues automatically per day', l: 'Xerox customer story', u: S.xerox }
+        ]
+      },
+      {
+        id: 'cases', estimate: true,
+        name: 'Incident Investigation and Response',
+        desc: 'Fewer incidents reach an analyst, and those that do arrive with the correlated data attached, so each one closes faster.',
+        uses: ['incidents', 'mttrMins', 'secopsRate', 'recapture'],
+        inputs: [
+          { key: 'fewer', label: 'Reduction in incidents needing investigation', value: 0.60, fmt: 'pct',
+            source: 'Held at the TEI year two figure. The composite reached 49%, 60% and 70%.' },
+          { key: 'faster', label: 'Reduction in time per remaining incident', value: 0.60, fmt: 'pct',
+            source: 'Held at the TEI year one figure. The composite cut MTTR by 60%, 72% and 85%.' }
+        ],
+        realization: 1,
+        calc: (g, i) => g.incidents * (g.mttrMins / 60) * (1 - (1 - i.fewer) * (1 - i.faster)) * g.secopsRate * g.recapture,
+        talk: 'Two levers multiply here: fewer incidents and faster ones. Both are held below the TEI peak.',
+        probe: 'How long does a typical investigation take, from alert to closed?',
+        evidence: [
+          { c: 'The TEI composite started from 2,600 incidents a year at 180 minutes each, $103 an hour', l: TEI, u: S.tei },
+          { c: 'Mean time to remediation fell 85% in the TEI, valued at over $1.2 million', l: 'Palo Alto Networks blog on the TEI', u: S.blog },
+          { c: 'One VP saw detection and remediation drop from over six hours to 40 to 50 minutes', l: 'Palo Alto Networks blog on the TEI', u: S.blog },
+          { c: 'A freight company cut incident resolution to about an hour', l: 'Freight company customer story', u: S.freight }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'risk', name: 'Risk Reduction', factor: 1,
+    desc: 'Avoided loss, measured the FAIR way: how often a loss happens times how big it is. Shown as a range and counted at half by default.',
+    notes: {
+      who: 'CISO, CFO and the board',
+      say: 'Your expected annual loss from ransomware is a range, not a number. We show the range and count half the reduction, and the case still clears without it.',
+      ask: ['What did your last EHR downtime cost per hour, including diversion?', 'What does your cyber insurer require, and did premiums move at renewal?'],
+      obj: '"Breach numbers are made up." Partly fair. That is why the inputs are your own downtime costs, the output is a range, and we count only half of it.'
+    },
+    drivers: [
+      {
+        id: 'breach', estimate: true, range: true,
+        name: 'Ransomware and Breach Exposure',
+        desc: 'Faster detection and automated containment lower the chance an intrusion becomes a material loss event.',
+        inputs: [
+          { key: 'attempts', label: 'Intrusion attempts that reach the network per year', value: 10, fmt: 'int',
+            source: 'Prospect-supplied, from the customer\'s incident history. Practice estimate.' },
+          { key: 'success', label: 'Chance an attempt becomes a loss event today', value: 0.03, fmt: 'pct',
+            source: 'Prospect-supplied. Practice estimate.' },
+          { key: 'cut', label: 'Reduction in that chance with the platform', value: 0.50, fmt: 'pct',
+            source: 'The TEI composite reduced breach risk 42%, 51% and 60% across three years. 50% is mid-range.' },
+          { key: 'loss', label: 'Most likely loss per event', value: 8000000, fmt: 'usd',
+            source: 'Customer-supplied: EHR downtime, ambulance diversion, recovery, notification and legal. Replace with the customer\'s own downtime cost.' },
+          { key: 'lossLow', label: 'Low-case loss per event', value: 4000000, fmt: 'usd', source: 'Bottom of the range.' },
+          { key: 'lossHigh', label: 'High-case loss per event', value: 16000000, fmt: 'usd', source: 'Top of the range.' }
+        ],
+        realization: 0.5,
+        realizationNote: 'Defaulted to 50%. A CFO discounts avoided loss first, so the model takes that haircut before the review does. The case should clear without this line.',
+        calc: (g, i) => i.attempts * i.success * i.cut * i.loss,
+        talk: 'Say the range out loud before you say the number.',
+        probe: 'How long were systems down in your last serious incident, and what did it cost?',
+        evidence: [
+          { c: 'The TEI composite reduced breach risk by 42%, 51% and 60% over three years', l: TEI, u: S.tei },
+          { c: 'Security posture improved 60% by year three, avoiding over $2.2 million in potential breach costs', l: 'Palo Alto Networks blog on the TEI', u: S.blog },
+          { c: 'Xerox eliminated 770 hours a month of exposure to high and medium severity threats', l: 'Xerox customer story', u: S.xerox },
+          { c: 'FAIR breaks risk into loss event frequency and loss magnitude', l: 'What is the FAIR model?', u: S.fair }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'comp', name: 'Compliance & Governance', factor: 1,
+    desc: 'Audit and regulatory effort. Small dollars, but it matters to the privacy and compliance office.',
+    notes: {
+      who: 'Compliance and privacy officer',
+      say: 'One data lake means audit evidence is a query, not a collection exercise across six consoles.',
+      ask: ['How many hours does the team spend pulling security evidence for HIPAA and HITRUST reviews?'],
+      obj: 'Keep this line small. It earns goodwill with compliance, not the CFO.'
+    },
+    drivers: [
+      {
+        id: 'audit', estimate: true,
+        name: 'Audit Evidence and Reporting',
+        desc: 'Security logs, investigations and response actions sit in one place, so audit evidence takes hours, not days.',
+        uses: ['secopsRate', 'recapture'],
+        inputs: [
+          { key: 'cycles', label: 'Audit and review cycles per year', value: 4, fmt: 'int', source: 'Prospect-supplied.' },
+          { key: 'hours', label: 'Evidence hours saved per cycle', value: 80, fmt: 'int',
+            source: 'Prospect-adjustable. No vendor-published figure, so it is held small.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.cycles * i.hours * g.secopsRate * g.recapture,
+        talk: 'Mention it, do not lead with it.',
+        probe: 'Which audit took the most security evidence work last year?',
+        evidence: [
+          { c: 'The TEI cites unified data and full-context visibility as an unquantified benefit', l: TEI, u: S.tei },
+          { c: 'Xerox gained full ownership of its data, no longer relying on others for it', l: 'Xerox customer story', u: S.xerox }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'grow', name: 'Platform Expansion (Phase 2)', factor: 1,
+    desc: 'The next consolidation wave. Evidence is cited and the value is left open until the customer names the contract.',
+    notes: {
+      who: 'CIO',
+      say: 'Start in the SOC. When the VPN or privileged access contract comes up, the same timing approach applies to the next platform.',
+      ask: ['When do your VPN, firewall and privileged access contracts renew?'],
+      obj: 'Do not put phase 2 in the number. It is the reason to keep the conversation going after this deal closes.'
+    },
+    drivers: [
+      {
+        id: 'phase2', pending: true,
+        name: 'Second Platform: Network or Identity',
+        desc: 'Prisma Access for remote access, or Idira for privileged access, once those contracts come up for renewal.',
+        inputs: [],
+        realization: 1,
+        calc: () => 0,
+        talk: 'Plant it, do not price it.',
+        probe: 'Which security contract do you most want to get out of in the next two years?',
+        evidence: [
+          { c: 'A platformization customer may start paying Palo Alto only after its obligation to legacy vendors ends', l: 'SDxCentral on platformization', u: S.defer },
+          { c: 'The vendor\'s path: deploy, convert when the incumbent contract expires, then expand into a second or third platform', l: 'Platformization analysis', u: S.path }
+        ]
+      }
+    ]
+  }
+];
+
+/* ---------- Monthly engine ---------- */
+function driverRun(a, d, g, scenario) {
+  if (a.enabled === false || d.enabled === false || d.pending) return 0;
+  const iv = {}; d.inputs.forEach(x => { iv[x.key] = x.value; });
+  return d.calc(g, iv) * d.realization * a.factor * (d.estimate ? scenario : 1);
+}
+
+function compute(g, areas, scenario) {
+  const areaTotals = {};
+  const yearValue = [0, 0, 0];
+  let total = 0;
+  for (const a of areas) {
+    let at = 0;
+    for (const d of a.drivers) {
+      const run = driverRun(a, d, g, scenario);
+      d._value = run;
+      at += run;
+      for (let mo = 1; mo <= HORIZON; mo++) {
+        const y = Math.ceil(mo / 12) - 1;
+        let f;
+        if (d.timing) f = mo > d.end ? 1 : 0;
+        else f = mo > g.deployMonths ? YEAR_RAMP[y] : 0;
+        yearValue[y] += run / 12 * f;
+      }
+    }
+    areaTotals[a.id] = at;
+    total += at;
+  }
+  const yearCost = [0, 0, 0];
+  for (let mo = 1; mo <= HORIZON; mo++) {
+    const y = Math.ceil(mo / 12) - 1;
+    yearCost[y] += g.maintenance / 12 + (mo > g.billingStart ? g.platformFee / 12 : 0);
+  }
+  let npv = -g.oneTimeCost;
+  for (let y = 0; y < 3; y++) npv += (yearValue[y] - yearCost[y]) / Math.pow(1 + g.wacc, y + 1);
+  const tco = g.oneTimeCost + yearCost[0] + yearCost[1] + yearCost[2];
+  const threeYearValue = yearValue[0] + yearValue[1] + yearValue[2];
+  const roi = tco > 0 ? (threeYearValue - tco) / tco : 0;
+
+  // Payback: first month cumulative value covers cumulative cost (one-time cost at month 0).
+  let cumV = 0, cumC = g.oneTimeCost, payback = null;
+  for (let mo = 1; mo <= HORIZON; mo++) {
+    const y = Math.ceil(mo / 12) - 1;
+    let v = 0;
+    for (const a of areas) for (const d of a.drivers) {
+      const f = d.timing ? (mo > d.end ? 1 : 0) : (mo > g.deployMonths ? YEAR_RAMP[y] : 0);
+      v += (d._value || 0) / 12 * f;
+    }
+    const c = g.maintenance / 12 + (mo > g.billingStart ? g.platformFee / 12 : 0);
+    const gapStart = cumC - cumV;
+    cumV += v; cumC += c;
+    const gapEnd = cumC - cumV;
+    if (gapEnd <= 0) { payback = (mo - 1) + (gapStart / (gapStart - gapEnd)); break; }
+  }
+  const siem = areas[0].drivers.find(d => d.id === 'siem');
+  const overlapMonths = (areas[0].enabled !== false && siem.enabled) ? Math.max(0, siem.end - g.billingStart) : 0;
+  const overlap = overlapMonths * g.platformFee / 12;
+  return { total, areaTotals, npv, roi, tco, payback, yearValue, yearCost, threeYearValue, overlap, overlapMonths };
+}
+
+/* ---------- Derivation traces ---------- */
+const TRACE = {
+  siem: (g, i) => [{ v: 'annual_value', out: 1, e: 'siem_annual_contract_value * share_retired', s: m(i.acv) + ' * ' + p(i.share) }],
+  soar: (g, i) => [{ v: 'annual_value', out: 1, e: 'soar_annual_contract_value * share_retired', s: m(i.acv) + ' * ' + p(i.share) }],
+  ndr: (g, i) => [{ v: 'annual_value', out: 1, e: 'ndr_itdr_annual_contract_value * share_retired', s: m(i.acv) + ' * ' + p(i.share) }],
+  mssp: (g, i) => [{ v: 'annual_value', out: 1, e: 'mssp_annual_contract_value * share_retired', s: m(i.acv) + ' * ' + p(i.share) }],
+  edr: (g, i) => [{ v: 'annual_value', out: 1, e: 'endpoints * net_cost_per_endpoint', s: n(g.endpoints) + ' * ' + m(i.perEndpoint) }],
+  infra: (g, i) => [{ v: 'annual_value', out: 1, e: 'it_ops_ftes_freed * cost_per_it_ops_fte', s: n2(i.ftes) + ' * ' + m(g.itOpsFte) }],
+  triage: (g, i) => {
+    const a = g.alerts * i.reduction, h = a * g.minsPerAlert / 60;
+    return [
+      { v: 'alerts_removed', e: 'alerts_per_year * reduction', s: n(g.alerts) + ' * ' + p(i.reduction) + ' = ' + n(a) },
+      { v: 'analyst_hours_returned', e: 'alerts_removed * (minutes_per_alert / 60)', s: n(a) + ' * (' + n(g.minsPerAlert) + ' / 60) = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours * tier1_rate * redeployed_share', s: n(h) + ' * ' + m(g.tier1Rate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  cases: (g, i) => {
+    const base = g.incidents * g.mttrMins / 60, left = (1 - i.fewer) * (1 - i.faster), h = base * (1 - left);
+    return [
+      { v: 'investigation_hours_today', e: 'incidents * (minutes_per_incident / 60)', s: n(g.incidents) + ' * (' + n(g.mttrMins) + ' / 60) = ' + n(base) },
+      { v: 'share_of_hours_remaining', e: '(1 - fewer_incidents) * (1 - faster_per_incident)', s: '(1 - ' + p(i.fewer) + ') * (1 - ' + p(i.faster) + ') = ' + p(left) },
+      { v: 'hours_returned', e: 'investigation_hours_today * (1 - share_remaining)', s: n(base) + ' * ' + p(1 - left) + ' = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours_returned * secops_rate * redeployed_share', s: n(h) + ' * ' + m(g.secopsRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  breach: (g, i) => {
+    const lef = i.attempts * i.success, after = lef * (1 - i.cut);
+    return [
+      { v: 'loss_events_per_year_today', e: 'attempts * chance_of_loss_event', s: n(i.attempts) + ' * ' + p(i.success) + ' = ' + n2(lef) },
+      { v: 'ale_today', e: 'loss_events * loss_per_event', s: n2(lef) + ' * ' + m(i.loss) + ' = ' + m(lef * i.loss) },
+      { v: 'ale_with_platform', e: 'loss_events * (1 - reduction) * loss_per_event', s: n2(lef) + ' * (1 - ' + p(i.cut) + ') * ' + m(i.loss) + ' = ' + m(after * i.loss) },
+      { v: 'annual_value', out: 1, e: 'ale_today - ale_with_platform, then the realization haircut', s: m((lef - after) * i.loss) + ' before the realization factor; range ' + m((lef - after) * i.lossLow) + ' to ' + m((lef - after) * i.lossHigh) }
+    ];
+  },
+  audit: (g, i) => {
+    const h = i.cycles * i.hours;
+    return [
+      { v: 'hours_saved', e: 'cycles * hours_per_cycle', s: n(i.cycles) + ' * ' + n(i.hours) + ' = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours_saved * secops_rate * redeployed_share', s: n(h) + ' * ' + m(g.secopsRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  phase2: () => [{ v: 'annual_value', out: 1, e: 'pending customer input', s: 'zero until the customer names the next contract to retire' }]
+};
+
+/* ---------- State ---------- */
+const G = {};
+GLOBALS.forEach(x => { G[x.key] = x.value; });
+AREAS.forEach(a => { a.enabled = true; a.open = false; a.drivers.forEach(d => { d.enabled = !d.startOff; }); });
+let SCENARIO = 1;
+let NOTES = false;
+const VERSIONS = [];
+
+const fmt = (v, f) => {
+  if (f === 'pct') return Math.round(v * 1000) / 10 + '%';
+  if (f === 'usd') return m(v);
+  if (f === 'int') return n(v);
+  return n2(v);
+};
+const el = (t, c, txt) => { const e = document.createElement(t); if (c) e.className = c; if (txt !== undefined) e.textContent = txt; return e; };
+
+function rampColor(i, total) {
+  if (total <= 1) return 'var(--ramp-dark)';
+  const pct = 100 - (i / (total - 1)) * 100;
+  return 'color-mix(in srgb, var(--ramp-dark) ' + pct + '%, var(--ramp-light))';
+}
+function rampText(i, total) {
+  if (total <= 1) return 'var(--ramp-text-on-dark)';
+  return (100 - (i / (total - 1)) * 100) >= 55 ? 'var(--ramp-text-on-dark)' : 'var(--ramp-text-on-light)';
+}
+
+function basisLine() {
+  return 'Composite regional health system: ' + n(G.employees) + ' employees, ' + n(G.endpoints) + ' endpoints, ' +
+    n(G.alerts) + ' alerts and ' + n(G.incidents) + ' incidents a year. ' + m(G.platformFee) +
+    ' a year platform fee (assumption; Palo Alto does not publish pricing), ' + m(G.oneTimeCost) + ' one-time deployment over ' + n(G.deployMonths) + ' months, ' +
+    Math.round(G.wacc * 100) + '% discount rate, 3-year horizon.';
+}
+
+function slider(value, onChange, opts) {
+  const o = Object.assign({ min: 0, max: 100, step: 5, scale: 100 }, opts || {});
+  const r = document.createElement('input');
+  r.type = 'range'; r.min = o.min; r.max = o.max; r.step = o.step; r.value = Math.round(value * o.scale);
+  const fill = () => r.style.setProperty('--fill', ((r.value - o.min) / (o.max - o.min) * 100) + '%');
+  fill();
+  r.addEventListener('input', () => { fill(); onChange(parseFloat(r.value) / o.scale); });
+  return r;
+}
+function checkbox(checked, onChange) {
+  const w = el('label', 'cb-wrap');
+  const c = document.createElement('input');
+  c.type = 'checkbox'; c.checked = checked;
+  c.addEventListener('change', () => onChange(c.checked));
+  w.appendChild(c);
+  return w;
+}
+function chevron() {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('viewBox', '0 0 20 20'); s.setAttribute('fill', 'none');
+  s.setAttribute('aria-hidden', 'true'); s.setAttribute('class', 'chev');
+  const pth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  pth.setAttribute('d', 'M7 4l6 6-6 6'); pth.setAttribute('stroke', 'currentColor');
+  pth.setAttribute('stroke-width', '2'); pth.setAttribute('stroke-linecap', 'round'); pth.setAttribute('stroke-linejoin', 'round');
+  s.appendChild(pth);
+  return s;
+}
+
+/* ---------- Driver card ---------- */
+function driverCard(a, d) {
+  const card = el('div', 'driver' + (d.enabled ? '' : ' off'));
+  card.id = 'card-' + a.id + '-' + d.id;
+
+  const top = el('div', 'd-top');
+  top.appendChild(checkbox(d.enabled, v => { d.enabled = v; card.classList.toggle('off', !v); recalc(); }));
+  const titles = el('div'); titles.style.minWidth = '0';
+  const t = el('p', 'd-title', d.name);
+  if (d.timing) t.appendChild(el('span', 'd-tag', 'Contract'));
+  else if (d.estimate) t.appendChild(el('span', 'd-tag', 'Estimate'));
+  titles.appendChild(t);
+  titles.appendChild(el('p', 'd-lead', d.desc));
+  top.appendChild(titles);
+  card.appendChild(top);
+
+  if (d.pending) card.appendChild(el('p', 'd-pending', 'Pending customer input. The evidence is cited, the dollar value is theirs to set.'));
+
+  if (d.inputs.length) {
+    const grid = el('div', 'd-inputs');
+    d.inputs.filter(i => !/^loss(Low|High)$/.test(i.key)).forEach(i => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', i.label));
+      w.appendChild(el('p', 'v', fmt(i.value, i.fmt)));
+      grid.appendChild(w);
+    });
+    card.appendChild(grid);
+  }
+
+  const ctl = el('div', 'd-ctl');
+  if (d.timing) {
+    const r0 = el('div', 'd-row');
+    r0.appendChild(el('span', null, d.endLabel || 'Contract ends after month'));
+    const ev = el('span', 'pct', String(d.end));
+    r0.appendChild(ev);
+    ctl.appendChild(r0);
+    const s0 = el('div'); s0.style.marginTop = '4px';
+    s0.appendChild(slider(d.end, v => { d.end = v; ev.textContent = String(v); recalc(); }, { min: 0, max: 30, step: 1, scale: 1 }));
+    ctl.appendChild(s0);
+  }
+  const r1 = el('div', 'd-row' + (d.timing ? ' v3' : ''));
+  r1.appendChild(el('span', null, 'Realization Factor'));
+  const pct = el('span', 'pct', Math.round(d.realization * 100) + '%');
+  r1.appendChild(pct);
+  ctl.appendChild(r1);
+  const sl = el('div'); sl.style.marginTop = '4px';
+  sl.appendChild(slider(d.realization, v => { d.realization = v; pct.textContent = Math.round(v * 100) + '%'; recalc(); }));
+  ctl.appendChild(sl);
+  const r2 = el('div', 'd-row v2');
+  r2.appendChild(el('span', null, 'Annual contribution, run rate'));
+  const amt = el('span', 'amt'); amt.id = 'dv-' + a.id + '-' + d.id;
+  r2.appendChild(amt);
+  ctl.appendChild(r2);
+  if (d.range) {
+    const rg = el('p', 'd-range'); rg.id = 'dr-' + d.id;
+    ctl.appendChild(rg);
+  }
+  card.appendChild(ctl);
+
+  if (d.realizationNote) card.appendChild(el('p', 'd-note', d.realizationNote));
+
+  const btn = el('button', 'd-inspect', 'Inspect Logic & Evidence');
+  btn.type = 'button';
+  btn.addEventListener('click', () => openModal(d));
+  card.appendChild(btn);
+  return card;
+}
+
+function sellerBlock(a) {
+  const s = el('div', 'seller');
+  s.hidden = !NOTES;
+  s.appendChild(el('h5', null, 'Seller notes: how to talk about ' + a.name));
+  const who = el('p'); who.appendChild(el('span', 'lab', 'Who cares: ')); who.appendChild(document.createTextNode(a.notes.who)); s.appendChild(who);
+  const say = el('p'); say.appendChild(el('span', 'lab', 'Say it this way: ')); say.appendChild(document.createTextNode(a.notes.say)); s.appendChild(say);
+  const ask = el('p'); ask.appendChild(el('span', 'lab', 'Ask:')); s.appendChild(ask);
+  const ul = el('ul'); a.notes.ask.forEach(q => ul.appendChild(el('li', null, q))); s.appendChild(ul);
+  const obj = el('p'); obj.appendChild(el('span', 'lab', 'If they push back: ')); obj.appendChild(document.createTextNode(a.notes.obj)); s.appendChild(obj);
+  return s;
+}
+
+/* ---------- Areas ---------- */
+function renderAreas() {
+  const host = document.getElementById('areas');
+  host.innerHTML = '';
+  const r = compute(G, AREAS, SCENARIO);
+  const ordered = AREAS.slice().sort((x, y) => r.areaTotals[y.id] - r.areaTotals[x.id]);
+  ordered.forEach(a => {
+    const card = el('div', 'area' + (a.open ? ' open' : '') + (a.enabled ? '' : ' off'));
+    card.dataset.area = a.id;
+    const head = el('div', 'area-head');
+    const cbw = el('div'); cbw.style.paddingTop = '2px';
+    cbw.appendChild(checkbox(a.enabled, v => { a.enabled = v; card.classList.toggle('off', !v); recalc(); }));
+    head.appendChild(cbw);
+    const tog = el('button', 'area-toggle');
+    tog.type = 'button';
+    tog.setAttribute('aria-expanded', a.open ? 'true' : 'false');
+    tog.appendChild(chevron());
+    tog.appendChild(el('span', null, a.name));
+    tog.addEventListener('click', () => {
+      a.open = !a.open;
+      card.classList.toggle('open', a.open);
+      tog.setAttribute('aria-expanded', a.open ? 'true' : 'false');
+    });
+    head.appendChild(tog);
+    const right = el('div', 'area-right');
+    const tw = el('div'); tw.style.textAlign = 'right';
+    const tv = el('span', 'area-total'); tv.id = 'at-' + a.id;
+    tw.appendChild(tv);
+    const pend = el('p', 'area-pending', 'Pending customer input');
+    pend.id = 'ap-' + a.id; pend.hidden = true;
+    tw.appendChild(pend);
+    right.appendChild(tw);
+    const af = el('div', 'area-factor');
+    af.appendChild(el('span', null, 'Area Factor'));
+    const track = el('div', 'track');
+    const afv = el('span', 'num', Math.round(a.factor * 100) + '%');
+    track.appendChild(slider(a.factor, v => { a.factor = v; afv.textContent = Math.round(v * 100) + '%'; recalc(); }));
+    af.appendChild(track);
+    af.appendChild(afv);
+    right.appendChild(af);
+    head.appendChild(right);
+    card.appendChild(head);
+
+    const collapse = el('div', 'collapse');
+    const inner = el('div');
+    const body = el('div', 'area-body');
+    body.appendChild(document.createElement('hr'));
+    body.appendChild(el('p', 'area-desc', a.desc));
+    body.appendChild(sellerBlock(a));
+    const grid = el('div', 'driver-grid');
+    a.drivers.slice().sort((x, y) => (y._value || 0) - (x._value || 0)).forEach(d => grid.appendChild(driverCard(a, d)));
+    body.appendChild(grid);
+    inner.appendChild(body);
+    collapse.appendChild(inner);
+    card.appendChild(collapse);
+    host.appendChild(card);
+  });
+}
+
+/* ---------- Evidence modal ---------- */
+const overlay = document.getElementById('overlay');
+document.getElementById('m-close').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
+
+function openModal(d) {
+  document.getElementById('m-title').textContent = d.name + ' | Logic & Evidence';
+  const b = document.getElementById('m-body');
+  b.innerHTML = '';
+  if (d.desc) b.appendChild(el('p', 'm-desc', d.desc));
+
+  b.appendChild(el('h4', 'm-sec first', 'Seller talk track'));
+  const tk = el('div', 'm-talk');
+  const p1 = el('p'); p1.appendChild(el('span', 'lab', 'Say: ')); p1.appendChild(document.createTextNode(d.talk)); tk.appendChild(p1);
+  const p2 = el('p'); p2.appendChild(el('span', 'lab', 'Ask: ')); p2.appendChild(document.createTextNode(d.probe)); tk.appendChild(p2);
+  b.appendChild(tk);
+
+  if (d.inputs.length) {
+    b.appendChild(el('h4', 'm-sec', 'Inputs'));
+    const grid = el('div', 'm-grid');
+    d.inputs.forEach(i => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', i.label));
+      w.appendChild(el('p', 'v', fmt(i.value, i.fmt)));
+      w.appendChild(el('p', 's', i.source));
+      grid.appendChild(w);
+    });
+    b.appendChild(grid);
+  }
+  const used = (d.uses || []).map(k => GLOBALS.find(x => x.key === k)).filter(Boolean);
+  if (used.length) {
+    b.appendChild(el('h4', 'm-sec', 'Company baseline'));
+    b.appendChild(el('p', 'm-subnote', 'Shared across drivers. Set once per customer.'));
+    const grid = el('div', 'm-grid');
+    used.forEach(gd => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', gd.label));
+      w.appendChild(el('p', 'v', fmt(G[gd.key], gd.fmt)));
+      grid.appendChild(w);
+    });
+    b.appendChild(grid);
+  }
+  b.appendChild(el('h4', 'm-sec', 'Derivation steps'));
+  if (d.timing) b.appendChild(el('p', 'm-subnote', 'Savings start the month after the contract ends (currently after month ' + d.end + ').'));
+  else if (d.estimate) b.appendChild(el('p', 'm-subnote', 'Run rate shown. Value starts after the ' + G.deployMonths + '-month deployment, then counts 70% in year one and 85% in year two, the effectiveness ramp used in the TEI.'));
+  const iv = {}; d.inputs.forEach(x => { iv[x.key] = x.value; });
+  const ol = el('ol', 'steps');
+  (TRACE[d.id] ? TRACE[d.id](G, iv) : []).forEach(st => {
+    const li = document.createElement('li');
+    const l1 = el('div');
+    l1.appendChild(el('span', 'nm' + (st.out ? '' : ' plain'), st.v));
+    l1.appendChild(document.createTextNode(' = ' + st.e));
+    if (st.out) l1.appendChild(el('span', 'out', '(output)'));
+    li.appendChild(l1);
+    li.appendChild(el('div', 'sub', '= ' + st.s));
+    ol.appendChild(li);
+  });
+  b.appendChild(ol);
+  if (d.evidence.length) {
+    b.appendChild(el('h4', 'm-sec', 'Evidence'));
+    const ul = el('ul', 'evid');
+    d.evidence.forEach(e => {
+      const li = document.createElement('li');
+      li.appendChild(el('span', 'claim', e.c));
+      const lk = el('a', null, e.l);
+      lk.href = e.u; lk.target = '_blank'; lk.rel = 'noopener noreferrer';
+      li.appendChild(lk);
+      ul.appendChild(li);
+    });
+    b.appendChild(ul);
+  }
+  document.getElementById('modal').scrollTop = 0;
+  overlay.classList.add('open');
+}
+
+/* ---------- Timeline ---------- */
+function renderTimeline(r) {
+  const host = document.getElementById('timeline');
+  host.innerHTML = '';
+  const pctOf = mo => (mo / HORIZON) * 100;
+  const lane = () => {
+    const l = el('div', 'lane');
+    [12, 24].forEach(y => { const t = el('div', 'yr'); t.style.left = pctOf(y) + '%'; l.appendChild(t); });
+    return l;
+  };
+  const seg = (l, cls, from, to, txt) => {
+    if (to <= from) return;
+    const s = el('div', 'tseg ' + cls, txt || '');
+    s.style.left = pctOf(from) + '%'; s.style.width = (pctOf(to) - pctOf(from)) + '%';
+    l.appendChild(s);
+  };
+  const tools = AREAS[0].enabled ? AREAS[0].drivers.filter(d => d.enabled) : [];
+  tools.forEach(d => {
+    host.appendChild(el('div', 'nm', d.short || d.name));
+    const l = lane();
+    const end = Math.min(d.end, HORIZON);
+    seg(l, 'old', 0, end, end >= 4 ? 'legacy' : '');
+    seg(l, 'save', end, HORIZON, (HORIZON - end) >= 6 ? mm(d._value) + ' / yr' : '');
+    host.appendChild(l);
+  });
+  host.appendChild(el('div', 'nm', 'Palo Alto billing'));
+  const lb = lane();
+  const bs = Math.min(G.billingStart, HORIZON);
+  seg(lb, 'bill', bs, HORIZON, (HORIZON - bs) >= 6 ? mm(G.platformFee) + ' / yr' : '');
+  host.appendChild(lb);
+  host.appendChild(el('div'));
+  const ax = el('div', 'tl-axis');
+  [[0, 'Month 0'], [12, 'Month 12'], [24, 'Month 24'], [36, 'Month 36']].forEach(([mo, t]) => {
+    const s = el('span', null, t); s.style.left = pctOf(mo) + '%';
+    if (mo === 0) s.style.transform = 'none';
+    if (mo === 36) s.style.transform = 'translateX(-100%)';
+    ax.appendChild(s);
+  });
+  host.appendChild(ax);
+  document.getElementById('billVal').textContent = String(G.billingStart);
+  document.getElementById('overlap').textContent = m(r.overlap) + (r.overlapMonths ? ' (' + r.overlapMonths + ' mo)' : '');
+  document.getElementById('yearSplit').textContent = 'Net value by year: ' + r.yearValue.map((v, y) => 'Y' + (y + 1) + ' ' + mm(v - r.yearCost[y])).join('  |  ');
+}
+
+/* ---------- Case versions ---------- */
+function snapshot() {
+  return {
+    scenario: SCENARIO, billingStart: G.billingStart,
+    areas: AREAS.map(a => ({ id: a.id, enabled: a.enabled, factor: a.factor,
+      drivers: a.drivers.map(d => ({ id: d.id, enabled: d.enabled, realization: d.realization, end: d.end })) }))
+  };
+}
+function restore(s) {
+  SCENARIO = s.scenario; G.billingStart = s.billingStart;
+  s.areas.forEach(sa => {
+    const a = AREAS.find(x => x.id === sa.id); a.enabled = sa.enabled; a.factor = sa.factor;
+    sa.drivers.forEach(sd => { const d = a.drivers.find(x => x.id === sd.id); d.enabled = sd.enabled; d.realization = sd.realization; if (sd.end !== undefined) d.end = sd.end; });
+  });
+  document.querySelectorAll('#scenarios button').forEach(x => x.setAttribute('aria-pressed', parseFloat(x.dataset.s) === SCENARIO ? 'true' : 'false'));
+  buildBillSlider();
+  compute(G, AREAS, SCENARIO);
+  renderAreas();
+  recalc();
+}
+function renderVersions() {
+  const host = document.getElementById('verList');
+  host.innerHTML = '';
+  if (!VERSIONS.length) { host.appendChild(el('p', 'ver-empty', 'No versions saved yet.')); return; }
+  const tb = el('table', 'ver');
+  const hr = el('tr');
+  [['Version', ''], ['Run rate / yr', 'r'], ['3-yr NPV', 'r'], ['ROI', 'r'], ['Payback', 'r'], ['', 'r']].forEach(([h, c]) => hr.appendChild(el('th', c, h)));
+  tb.appendChild(hr);
+  const base = VERSIONS[0].r;
+  VERSIONS.forEach((v, idx) => {
+    const tr = el('tr');
+    tr.appendChild(el('td', null, v.name));
+    const cell = (val, delta) => {
+      const td = el('td', 'r', val);
+      if (idx > 0 && delta) { td.appendChild(document.createElement('br')); td.appendChild(el('span', 'delta', delta)); }
+      return td;
+    };
+    const d = (a, b) => (a - b >= 0 ? '+' : '') + mm(a - b) + ' vs v1';
+    tr.appendChild(cell(mm(v.r.total), d(v.r.total, base.total)));
+    tr.appendChild(cell(mm(v.r.npv), d(v.r.npv, base.npv)));
+    tr.appendChild(cell(Math.round(v.r.roi * 100) + '%'));
+    tr.appendChild(cell(v.r.payback ? v.r.payback.toFixed(1) + ' mo' : 'Not in 3 yrs'));
+    const td = el('td', 'r');
+    const btn = el('button', 'btn-sm', 'Load'); btn.type = 'button';
+    btn.addEventListener('click', () => restore(v.state));
+    td.appendChild(btn);
+    tr.appendChild(td);
+    tb.appendChild(tr);
+  });
+  host.appendChild(tb);
+}
+document.getElementById('verSave').addEventListener('click', () => {
+  const inp = document.getElementById('verName');
+  const name = inp.value.trim() || ('Version ' + (VERSIONS.length + 1));
+  const r = compute(G, AREAS, SCENARIO);
+  VERSIONS.push({ name, state: snapshot(), r: { total: r.total, npv: r.npv, roi: r.roi, payback: r.payback } });
+  inp.value = '';
+  renderVersions();
+});
+
+/* ---------- Recalc ---------- */
+function recalc() {
+  const r = compute(G, AREAS, SCENARIO);
+  document.getElementById('total').textContent = m(r.total) + ' / yr';
+  document.getElementById('chartTotal').textContent = m(r.total) + ' / yr';
+  document.getElementById('basis').textContent = basisLine();
+  const kpis = [
+    ['3-year net present value', m(r.npv), '3-yr net cash flow, WACC-discounted'],
+    ['Estimated ROI', (r.roi * 100).toFixed(1) + '%', '3-yr net value / 3-yr cost'],
+    ['Payback period', r.payback ? r.payback.toFixed(1) + ' Mo' : 'Not achieved within 3 years', 'Time to full cost recovery'],
+    ['TCO (3-yr)', m(r.tco), 'Platform, administration and deployment']
+  ];
+  const kw = document.getElementById('kpis');
+  kw.innerHTML = '';
+  kpis.forEach(([l, v, s]) => {
+    const c = el('div', 'kpi');
+    c.appendChild(el('p', 'l', l)); c.appendChild(el('p', 'v', v)); c.appendChild(el('p', 's', s));
+    kw.appendChild(c);
+  });
+  const segs = AREAS.map(a => ({ a, v: r.areaTotals[a.id] })).filter(x => x.v > 0).sort((x, y) => y.v - x.v);
+  const bar = document.getElementById('bar');
+  const leg = document.getElementById('legend');
+  bar.innerHTML = ''; leg.innerHTML = '';
+  segs.forEach((x, i) => {
+    const pct = r.total > 0 ? (x.v / r.total) * 100 : 0;
+    const sg = el('div', null, pct >= 5 ? Math.round(pct) + '%' : '');
+    sg.style.width = pct + '%';
+    sg.style.backgroundColor = rampColor(i, segs.length);
+    sg.style.color = rampText(i, segs.length);
+    sg.title = x.a.name + ' ' + m(x.v);
+    bar.appendChild(sg);
+    const li = el('div');
+    const sw = el('span', 'swatch'); sw.style.backgroundColor = rampColor(i, segs.length);
+    li.appendChild(sw); li.appendChild(el('span', 'nm', x.a.name)); li.appendChild(el('span', 'vl', m(x.v)));
+    leg.appendChild(li);
+  });
+  AREAS.forEach(a => {
+    const t = document.getElementById('at-' + a.id);
+    if (t) t.textContent = m(r.areaTotals[a.id]) + ' / yr';
+    const pn = document.getElementById('ap-' + a.id);
+    if (pn) pn.hidden = r.areaTotals[a.id] !== 0;
+    a.drivers.forEach(d => {
+      const node = document.getElementById('dv-' + a.id + '-' + d.id);
+      if (node) node.textContent = d.pending ? '$0' : m(d._value);
+      if (d.range) {
+        const rg = document.getElementById('dr-' + d.id);
+        if (rg) {
+          const iv = {}; d.inputs.forEach(x => { iv[x.key] = x.value; });
+          const k = (a.enabled && d.enabled) ? iv.attempts * iv.success * iv.cut * d.realization * a.factor * SCENARIO : 0;
+          rg.textContent = 'Range at this realization: ' + m(k * iv.lossLow) + ' to ' + m(k * iv.lossHigh) + ' / yr';
+        }
+      }
+    });
+  });
+  renderTimeline(r);
+}
+
+/* ---------- Controls ---------- */
+function buildBillSlider() {
+  const host = document.getElementById('billTrack');
+  host.innerHTML = '';
+  host.appendChild(slider(G.billingStart, v => { G.billingStart = v; recalc(); }, { min: 0, max: 24, step: 1, scale: 1 }));
+}
+document.getElementById('scenarios').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  SCENARIO = parseFloat(b.dataset.s);
+  [...e.currentTarget.querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  recalc();
+});
+const themeBtn = document.getElementById('theme');
+themeBtn.addEventListener('click', () => {
+  const light = document.documentElement.getAttribute('data-theme') !== 'light';
+  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+  themeBtn.textContent = light ? 'Dark' : 'Light';
+});
+const notesBtn = document.getElementById('notesBtn');
+notesBtn.addEventListener('click', () => {
+  NOTES = !NOTES;
+  notesBtn.setAttribute('aria-pressed', NOTES ? 'true' : 'false');
+  document.querySelectorAll('.seller').forEach(s => { s.hidden = !NOTES; });
+  if (NOTES) {
+    AREAS.forEach(a => { a.open = true; });
+    document.querySelectorAll('.area').forEach(c => { c.classList.add('open'); const t = c.querySelector('.area-toggle'); if (t) t.setAttribute('aria-expanded', 'true'); });
+  }
+});
+document.getElementById('expandAll').addEventListener('click', () => {
+  AREAS.forEach(a => { a.open = true; });
+  document.querySelectorAll('.area').forEach(c => { c.classList.add('open'); const t = c.querySelector('.area-toggle'); if (t) t.setAttribute('aria-expanded', 'true'); });
+});
+document.getElementById('collapseAll').addEventListener('click', () => {
+  AREAS.forEach(a => { a.open = false; });
+  document.querySelectorAll('.area').forEach(c => { c.classList.remove('open'); const t = c.querySelector('.area-toggle'); if (t) t.setAttribute('aria-expanded', 'false'); });
+});
+
+/* ---------- Boot ---------- */
+window.__MODEL = { GLOBALS, AREAS, G, compute };
+buildBillSlider();
+compute(G, AREAS, SCENARIO);
+renderAreas();
+recalc();
+renderVersions();
+
+</script>
+</body>
+</html>
